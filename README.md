@@ -126,15 +126,15 @@ There are **two ways** to upload files:
 
    | Detail | Example | Location |
    |--------|---------|----------|
-   | **Server Address** | `myserver.aternos.me` | Dòng "Address" trên trang chủ |
+   | **Server Address** | `myserver.aternos.me` | "Address" field on the main page |
    | **Port** | `44076` | The number after `:` in the address (e.g. `myserver.aternos.me:44076`) |
    | **MC Version** | `1.21.1` | The "Software" version of your server |
 
    > ⚠️ **Aternos ports change every time the server restarts!** You will need to update the port in your Web Panel whenever your server is restarted.
 
 4. **⚠️ REQUIRED — Enable Cracked (Offline Mode) on Aternos:**
-   - In the left sidebar of Aternos, click **"Options"** (Tùy chọn).
-   - Find the setting called **"Cracked"** (Bản bẻ khóa).
+   - In the left sidebar of Aternos, click **"Options"**.
+   - Find the setting called **"Cracked"**.
    - Switch the toggle **ON** (so it turns green or has a checkmark).
    - *Explanation:* The bot uses offline (Cracked) authentication. If Cracked is disabled on Aternos, the bot will fail to connect and throw a "Not authenticated with Minecraft.net" or "Disallowed connection" error.
 
