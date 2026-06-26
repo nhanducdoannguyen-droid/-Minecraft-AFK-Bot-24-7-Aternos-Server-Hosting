@@ -304,6 +304,14 @@ Nếu bạn phát hiện lỗi hoặc cần hỗ trợ, vui lòng gửi phản h
 
 ---
 
+## ⚠️ Miễn Trừ Trách Nhiệm (Disclaimer)
+
+Dự án này được tạo ra hoàn toàn phục vụ cho **mục đích nghiên cứu và học tập cá nhân**. 
+- Tác giả không chịu trách nhiệm cho bất kỳ hình thức xử phạt (ban/kick) hay mất mát nào từ phía nhà cung cấp dịch vụ server (ví dụ: Aternos, HuggingFace, v.v.) phát sinh do việc sử dụng công cụ này.
+- Hãy tự chịu trách nhiệm và tuân thủ Điều khoản dịch vụ của các nền tảng liên quan khi vận hành bot.
+
+---
+
 ## 📄 License
 
 MIT — Thoải mái sử dụng, chỉnh sửa, và chia sẻ!

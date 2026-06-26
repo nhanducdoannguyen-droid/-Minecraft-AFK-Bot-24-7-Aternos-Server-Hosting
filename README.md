@@ -245,6 +245,15 @@ If you encounter issues or find bugs, feel free to report them via email:
 
 ---
 
+## ⚠️ Disclaimer
+
+This project is created solely for **educational and research purposes**.
+- The author is not responsible for any service suspensions, bans, kicks, or losses from third-party hosting providers (e.g., Aternos, HuggingFace, etc.) resulting from the use of this tool.
+- Please use this tool at your own responsibility and in compliance with the Terms of Service of the respective platforms.
+
+---
+
 ## 📄 License
 
 MIT — Feel free to use, modify, and share!
+
