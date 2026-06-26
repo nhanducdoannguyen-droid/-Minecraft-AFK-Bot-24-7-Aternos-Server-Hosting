@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MC Bot — Control Panel</title>
+  <meta name="description" content="Web panel cấu hình Minecraft AFK Bot — chỉnh settings, toggle tính năng, quản lý bot dễ dàng.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="container">
+  <!-- ===== HEADER ===== -->
+  <header class="header" style="position: relative;">
+    <div class="lang-selector" style="position: absolute; top: -10px; right: 0; display: flex; gap: 8px; z-index: 5;">
+      <button class="lang-btn" id="btnLangVi" data-lang="vi" style="padding: 6px 12px; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.4); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: var(--transition-fast); font-weight: 600;">🇻🇳 VI</button>
+      <button class="lang-btn" id="btnLangEn" data-lang="en" style="padding: 6px 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: var(--text-muted); font-size: 11px; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: var(--transition-fast); font-weight: 600;">🇺🇸 EN</button>
+    </div>
+    <div class="header-icon">🤖</div>
+    <h1 data-i18n="headerTitle">MC Bot Control Panel</h1>
+    <p data-i18n="headerSub">Cấu hình bot Minecraft AFK — treo server 24/7</p>
+  </header>
+
+  <!-- ===== STATUS BAR ===== -->
+  <div class="status-bar" id="statusBar">
+    <div class="status-dot offline" id="statusDot"></div>
+    <div class="status-info">
+      <div class="status-label" id="statusLabel" data-i18n="statusLabelChecking">Đang kiểm tra...</div>
+      <div class="status-detail" id="statusDetail">—</div>
+    </div>
+    <span class="status-badge offline" id="statusBadge" data-i18n="statusBadgeOffline">Offline</span>
+  </div>
+
+  <!-- ===== QUICK START GUIDE ===== -->
+  <section class="section" id="guideSection">
+    <div class="section-header" style="cursor: pointer;" id="guideToggle">
+      <div class="section-title">
+        <div class="section-icon" style="background: rgba(168, 85, 247, 0.15);">📖</div>
+        <div>
+          <h2 data-i18n="guideTitle">Hướng Dẫn Nhanh</h2>
+          <span class="subtitle" data-i18n="guideSub">Nhấn để mở/đóng — 4 bước setup cho người mới</span>
+        </div>
+      </div>
+      <span id="guideArrow" style="font-size: 18px; color: var(--text-muted); transition: transform 0.3s;">▼</span>
+    </div>
+
+    <div class="collapsible-content active" id="guideContent">
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+
+        <!-- Step 1 -->
+        <div style="display: flex; gap: 14px; align-items: flex-start;">
+          <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; color: white;">1</div>
+          <div>
+            <div style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px;" data-i18n="step1Title">Bật Server & Setup Cracked</div>
+            <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;" data-i18n="step1Desc">Đăng nhập <a href="https://aternos.org" target="_blank" style="color: var(--accent-indigo-light);">aternos.org</a> → bật server. ⚠️ <strong>BẮT BUỘC:</strong> Vào mục <strong>Options (Tùy chọn)</strong> → Bật <strong>Cracked (Bản bẻ khóa)</strong> lên. Nếu không bật, bot sẽ không vào được!</div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div style="display: flex; gap: 14px; align-items: flex-start;">
+          <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; color: white;">2</div>
+          <div>
+            <div style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px;" data-i18n="step2Title">Điền Thông Tin Server</div>
+            <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;" data-i18n="step2Desc">Điền <strong>Tên Bot</strong>, <strong>Server Host</strong> (phần trước dấu <code style="color: var(--text-accent);">:</code>), <strong>Server Port</strong> (phần sau dấu <code style="color: var(--text-accent);">:</code>), và <strong>Phiên Bản MC</strong> ở mục bên dưới.</div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div style="display: flex; gap: 14px; align-items: flex-start;">
+          <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; color: white;">3</div>
+          <div>
+            <div style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px;" data-i18n="step3Title">Bật Tính Năng (Tùy Chọn)</div>
+            <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;" data-i18n="step3Desc"><strong>Discord Webhook</strong> — nhận thông báo về Discord. <strong>LoginSecurity</strong> — bật nếu server yêu cầu /login. <strong>Chống AFK</strong> — nên bật để tránh bị kick.</div>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div style="display: flex; gap: 14px; align-items: flex-start;">
+          <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--gradient-success); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; color: white;">4</div>
+          <div>
+            <div style="font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px;" data-i18n="step4Title">Nhấn "Lưu & Khởi Động Lại Bot"</div>
+            <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;" data-i18n="step4Desc">Bot sẽ tự kết nối đến server. Khi thành công, trạng thái chuyển sang 🟢 <strong style="color: var(--accent-emerald-light);">Online</strong>. Xong!</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 1: SERVER INFO ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title">
+        <div class="section-icon server">🎮</div>
+        <div>
+          <h2 data-i18n="sec1Title">Thông Tin Server</h2>
+          <span class="subtitle" data-i18n="sec1Sub">Cấu hình kết nối Minecraft</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Warning banner for Cracked mode -->
+    <div class="info-banner warning">
+      <span class="info-icon">⚠️</span>
+      <p data-i18n="sec1Warning"><strong>Lưu ý cho server Aternos:</strong> Bạn bắt buộc phải vào mục <strong>Options (Tùy chọn)</strong> trên trang web Aternos và bật <strong>Cracked (Bản bẻ khóa)</strong> lên. Nếu không bật, bot sẽ bị lỗi <em>"Disallowed connection"</em> hoặc <em>"Not authenticated with Minecraft.net"</em>.</p>
+    </div>
+
+    <div class="form-grid">
+      <div class="field">
+        <label for="botUsername" data-i18n="labelBotName">Tên Bot</label>
+        <input type="text" id="botUsername" placeholder="VD: BotTreoServer" data-i18n-placeholder="placeholderBotName" autocomplete="off">
+      </div>
+      <div class="field">
+        <label for="mcVersion" data-i18n="labelVersion">Phiên Bản MC</label>
+        <input type="text" id="mcVersion" placeholder="VD: 1.21.1" data-i18n-placeholder="placeholderVersion">
+      </div>
+      <div class="field">
+        <label for="serverHost" data-i18n="labelHost">Server Host</label>
+        <input type="text" id="serverHost" placeholder="VD: play.example.com" data-i18n-placeholder="placeholderHost">
+      </div>
+      <div class="field">
+        <label for="serverPort" data-i18n="labelPort">Server Port</label>
+        <input type="number" id="serverPort" placeholder="25565" data-i18n-placeholder="placeholderPort" min="1" max="65535">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 2: DISCORD WEBHOOK ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title">
+        <div class="section-icon webhook">💬</div>
+        <div>
+          <h2 data-i18n="sec2Title">Discord Webhook</h2>
+          <span class="subtitle" data-i18n="sec2Sub">Gửi thông báo về Discord</span>
+        </div>
+      </div>
+      <div class="toggle-wrapper">
+        <input type="checkbox" class="toggle" id="webhookEnabled" aria-label="Bật/tắt Webhook">
+      </div>
+    </div>
+
+    <div class="collapsible-content" id="webhookContent">
+      <div class="form-grid">
+        <div class="field full-width">
+          <label for="webhookUrl" data-i18n="labelWebhookUrl">Webhook URL</label>
+          <input type="text" id="webhookUrl" placeholder="https://discord.com/api/webhooks/...">
+          <span class="hint" data-i18n="hintWebhookUrl">Tạo webhook trong Discord Server Settings → Integrations → Webhooks</span>
+        </div>
+        <div class="field full-width">
+          <label for="webhookProxy" data-i18n="labelWebhookProxy">Webhook Proxy URL <span style="opacity:0.5">(tùy chọn)</span></label>
+          <input type="text" id="webhookProxy" placeholder="https://script.google.com/macros/s/...">
+          <span class="hint" data-i18n="hintWebhookProxy">Dùng proxy nếu deploy trên HuggingFace (bị chặn gửi trực tiếp đến Discord)</span>
+        </div>
+      </div>
+
+      <div class="info-banner">
+        <span class="info-icon">ℹ️</span>
+        <p data-i18n="descWebhook">Khi bật, bot sẽ gửi thông báo về Discord khi: kết nối/ngắt kết nối, player join/leave, phát hiện hack/cheat, và trạng thái bot.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 3: ANTI-AFK ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title">
+        <div class="section-icon afk">🏃</div>
+        <div>
+          <h2 data-i18n="sec3Title">Chống AFK</h2>
+          <span class="subtitle" data-i18n="sec3Sub">Giả lập player thật, tránh bị kick</span>
+        </div>
+      </div>
+      <div class="toggle-wrapper">
+        <input type="checkbox" class="toggle" id="antiAfkEnabled" checked aria-label="Bật/tắt Anti-AFK">
+      </div>
+    </div>
+
+    <div class="collapsible-content active" id="antiAfkContent">
+      <div class="info-banner">
+        <span class="info-icon">🎭</span>
+        <p data-i18n="descAntiAfk">Bot sẽ tự động di chuyển, nhìn xung quanh, nhảy, vung tay, đổi hotbar, mở inventory... giống player thật để tránh bị hệ thống anti-AFK phát hiện và kick.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 4: LOGIN SECURITY ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title">
+        <div class="section-icon login">🔐</div>
+        <div>
+          <h2 data-i18n="sec4Title">LoginSecurity Plugin</h2>
+          <span class="subtitle" data-i18n="sec4Sub">Tự động đăng nhập/đăng ký</span>
+        </div>
+      </div>
+      <div class="toggle-wrapper">
+        <input type="checkbox" class="toggle" id="loginSecurityEnabled" aria-label="Bật/tắt LoginSecurity">
+      </div>
+    </div>
+
+    <div class="collapsible-content" id="loginSecurityContent">
+      <div class="form-grid">
+        <div class="field full-width">
+          <label for="botPassword" data-i18n="labelBotPassword">Mật Khẩu Bot</label>
+          <div class="password-wrapper">
+            <input type="password" id="botPassword" placeholder="Nhập mật khẩu cho bot..." data-i18n-placeholder="placeholderBotPassword" autocomplete="new-password">
+            <button type="button" class="password-toggle-btn" id="passwordToggleBtn" aria-label="Hiện/ẩn mật khẩu">👁️</button>
+          </div>
+          <span class="hint" data-i18n="hintBotPassword">Mật khẩu để bot tự đăng ký & đăng nhập vào server có plugin LoginSecurity</span>
+        </div>
+      </div>
+
+      <div class="info-banner">
+        <span class="info-icon">🔑</span>
+        <p data-i18n="descLoginSecurity"><strong>Cách hoạt động:</strong> Lần đầu vào server → bot tự gửi <code>/register &lt;pass&gt; &lt;pass&gt;</code> để tạo tài khoản. Các lần sau → bot tự gửi <code>/login &lt;pass&gt;</code> để đăng nhập. Bot tự phát hiện yêu cầu từ plugin.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SECTION 5: HUGGINGFACE INFO ===== -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-title">
+        <div class="section-icon" style="background: rgba(245, 158, 11, 0.15);">☁️</div>
+        <div>
+          <h2 data-i18n="sec5Title">HuggingFace Spaces</h2>
+          <span class="subtitle" data-i18n="sec5Sub">Cấu hình qua Environment Variables</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-banner">
+      <span class="info-icon">💡</span>
+      <p data-i18n="descHf">Bạn cũng có thể cấu hình qua <strong>HuggingFace Secrets</strong> (Settings → Variables and secrets). Env vars sẽ override config từ web panel. Các biến hỗ trợ:</p>
+    </div>
+    <div style="margin-top: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); line-height: 2;">
+      <code style="color: var(--text-accent);">MC_HOST</code> · <code style="color: var(--text-accent);">MC_PORT</code> · <code style="color: var(--text-accent);">MC_USERNAME</code> · <code style="color: var(--text-accent);">MC_VERSION</code><br>
+      <code style="color: var(--text-accent);">DISCORD_WEBHOOK_URL</code> · <code style="color: var(--text-accent);">WEBHOOK_PROXY</code> · <code style="color: var(--text-accent);">WEBHOOK_ENABLED</code><br>
+      <code style="color: var(--text-accent);">BOT_PASSWORD</code> · <code style="color: var(--text-accent);">ANTI_AFK</code>
+    </div>
+  </section>
+
+  <!-- ===== SAVE BUTTON ===== -->
+  <div class="save-section">
+    <button class="btn-save" id="btnSave" type="button">
+      <span class="spinner"></span>
+      <span class="btn-text" data-i18n="btnSaveText">💾 Lưu & Khởi Động Lại Bot</span>
+      <span class="btn-loading-text" data-i18n="btnSaveLoading">Đang lưu & restart...</span>
+    </button>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer style="margin-top: 40px; padding: 20px 0; text-align: center; font-size: 11px; color: var(--text-muted); border-top: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center;">
+    <div data-i18n="footerText">🤖 MC Bot Control Panel — Treo Server Minecraft Aternos 24/7</div>
+    <div style="display: flex; gap: 16px;">
+      <span><span data-i18n="footerSupport">📧 Hỗ trợ & Báo lỗi: </span><a href="mailto:dn250507@gmail.com" style="color: var(--accent-indigo-light); text-decoration: none;">dn250507@gmail.com</a></span>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+//  Translations Dictionary (i18n)
+// ============================================================
+const translations = {
+  vi: {
+    headerTitle: "MC Bot Control Panel",
+    headerSub: "Cấu hình bot Minecraft AFK — treo server 24/7",
+    statusLabelChecking: "Đang kiểm tra...",
+    statusLabelOnline: "đang online",
+    statusLabelOffline: "Bot đang offline",
+    statusLabelError: "⚠️ Không kết nối được đến server",
+    statusBadgeOffline: "Offline",
+    statusBadgeOnline: "Online",
+    statusBadgeError: "Lỗi",
+    guideTitle: "Hướng Dẫn Nhanh",
+    guideSub: "Nhấn để mở/đóng — 4 bước setup cho người mới",
+    step1Title: "Bật Server & Setup Cracked",
+    step1Desc: "Đăng nhập <a href=\"https://aternos.org\" target=\"_blank\" style=\"color: var(--accent-indigo-light);\">aternos.org</a> → bật server. <br>⚠️ <strong>BẮT BUỘC:</strong> Vào mục <strong>Options (Tùy chọn)</strong> → Bật <strong>Cracked (Bản bẻ khóa)</strong> lên. Nếu không bật, bot sẽ không vào được!",
+    step2Title: "Điền Thông Tin Server",
+    step2Desc: "Điền <strong>Tên Bot</strong>, <strong>Server Host</strong> (phần trước dấu <code style=\"color: var(--text-accent);\">:</code>), <strong>Server Port</strong> (phần sau dấu <code style=\"color: var(--text-accent);\">:</code>), và <strong>Phiên Bản MC</strong> ở mục bên dưới.",
+    step3Title: "Bật Tính Năng (Tùy Chọn)",
+    step3Desc: "<strong>Discord Webhook</strong> — nhận thông báo về Discord. <strong>LoginSecurity</strong> — bật nếu server yêu cầu /login. <strong>Chống AFK</strong> — nên bật để tránh bị kick.",
+    step4Title: "Nhấn \"Lưu & Khởi Động Lại Bot\"",
+    step4Desc: "Bot sẽ tự kết nối đến server. Khi thành công, trạng thái chuyển sang 🟢 <strong style=\"color: var(--accent-emerald-light);\">Online</strong>. Xong!",
+    sec1Title: "Thông Tin Server",
+    sec1Sub: "Cấu hình kết nối Minecraft",
+    sec1Warning: "<strong>Lưu ý cho server Aternos:</strong> Bạn bắt buộc phải vào mục <strong>Options (Tùy chọn)</strong> trên trang web Aternos và bật <strong>Cracked (Bản bẻ khóa)</strong> lên. Nếu không bật, bot sẽ bị lỗi <em>\"Disallowed connection\"</em> hoặc <em>\"Not authenticated with Minecraft.net\"</em>.",
+    labelBotName: "Tên Bot",
+    labelVersion: "Phiên Bản MC",
+    labelHost: "Server Host",
+    labelPort: "Server Port",
+    placeholderBotName: "VD: BotTreoServer",
+    placeholderVersion: "VD: 1.21.1",
+    placeholderHost: "VD: play.example.com",
+    placeholderPort: "25565",
+    sec2Title: "Discord Webhook",
+    sec2Sub: "Gửi thông báo về Discord",
+    labelWebhookUrl: "Webhook URL",
+    labelWebhookProxy: "Webhook Proxy URL <span style=\"opacity:0.5\">(tùy chọn)</span>",
+    hintWebhookUrl: "Tạo webhook trong Discord Server Settings → Integrations → Webhooks",
+    hintWebhookProxy: "Dùng proxy nếu deploy trên HuggingFace (bị chặn gửi trực tiếp đến Discord)",
+    descWebhook: "Khi bật, bot sẽ gửi thông báo về Discord khi: kết nối/ngắt kết nối, player join/leave, phát hiện hack/cheat, và trạng thái bot.",
+    sec3Title: "Chống AFK",
+    sec3Sub: "Giả lập player thật, tránh bị kick",
+    descAntiAfk: "Bot sẽ tự động di chuyển, nhìn xung quanh, nhảy, vung tay, đổi hotbar, mở inventory... giống player thật để tránh bị hệ thống anti-AFK phát hiện và kick.",
+    sec4Title: "LoginSecurity Plugin",
+    sec4Sub: "Tự động đăng nhập/đăng ký",
+    labelBotPassword: "Mật Khẩu Bot",
+    placeholderBotPassword: "Nhập mật khẩu cho bot...",
+    hintBotPassword: "Mật khẩu để bot tự đăng ký & đăng nhập vào server có plugin LoginSecurity",
+    descLoginSecurity: "<strong>Cách hoạt động:</strong> Lần đầu vào server → bot tự gửi <code>/register &lt;pass&gt; &lt;pass&gt;</code> để tạo tài khoản. Các lần sau → bot tự gửi <code>/login &lt;pass&gt;</code> để đăng nhập. Bot tự phát hiện yêu cầu từ plugin.",
+    sec5Title: "HuggingFace Spaces",
+    sec5Sub: "Cấu hình qua Environment Variables",
+    descHf: "Bạn cũng có thể cấu hình qua <strong>HuggingFace Secrets</strong> (Settings → Variables and secrets). Env vars sẽ override config từ web panel. Các biến hỗ trợ:",
+    btnSaveText: "💾 Lưu & Khởi Động Lại Bot",
+    btnSaveLoading: "Đang lưu & restart...",
+    footerText: "🤖 MC Bot Control Panel — Treo Server Minecraft Aternos 24/7",
+    footerSupport: "📧 Hỗ trợ & Báo lỗi: ",
+    toastEmptyName: "Vui lòng nhập tên bot!",
+    toastEmptyHost: "Vui lòng nhập địa chỉ server!",
+    toastInvalidPort: "Port không hợp lệ (1-65535)!",
+    toastEmptyWebhook: "Bật Webhook cần nhập Webhook URL!",
+    toastEmptyPassword: "Bật LoginSecurity cần nhập mật khẩu!",
+    toastSaveSuccess: "Đã lưu cấu hình & restart bot!",
+    toastSaveError: "Lỗi lưu cấu hình!",
+    toastConnError: "Lỗi kết nối: "
+  },
+  en: {
+    headerTitle: "MC Bot Control Panel",
+    headerSub: "Minecraft AFK Bot configuration — 24/7 Server Hosting",
+    statusLabelChecking: "Checking status...",
+    statusLabelOnline: "is online",
+    statusLabelOffline: "Bot is offline",
+    statusLabelError: "⚠️ Cannot connect to server",
+    statusBadgeOffline: "Offline",
+    statusBadgeOnline: "Online",
+    statusBadgeError: "Error",
+    guideTitle: "Quick Start Guide",
+    guideSub: "Click to collapse/expand — 4 quick setup steps",
+    step1Title: "Start Server & Setup Cracked",
+    step1Desc: "Login to <a href=\"https://aternos.org\" target=\"_blank\" style=\"color: var(--accent-indigo-light);\">aternos.org</a> → start server. <br>⚠️ <strong>REQUIRED:</strong> Go to <strong>Options</strong> → Enable <strong>Cracked</strong>. If not enabled, the bot cannot connect!",
+    step2Title: "Enter Server Details",
+    step2Desc: "Fill in <strong>Bot Username</strong>, <strong>Server Host</strong> (before <code style=\"color: var(--text-accent);\">:</code>), <strong>Server Port</strong> (after <code style=\"color: var(--text-accent);\">:</code>), and <strong>MC Version</strong> below.",
+    step3Title: "Enable Features (Optional)",
+    step3Desc: "<strong>Discord Webhook</strong> — receive Discord alerts. <strong>LoginSecurity</strong> — enable if the server uses a password. <strong>Anti-AFK</strong> — recommended to prevent kicks.",
+    step4Title: "Click \"Save & Restart Bot\"",
+    step4Desc: "The bot will automatically connect. Upon success, status updates to 🟢 <strong style=\"color: var(--accent-emerald-light);\">Online</strong>. Done!",
+    sec1Title: "Server Info",
+    sec1Sub: "Minecraft connection settings",
+    sec1Warning: "<strong>Important Aternos Warning:</strong> You must go to the <strong>Options</strong> tab on Aternos and enable <strong>Cracked</strong>. Otherwise, the bot will fail to connect with <em>\"Disallowed connection\"</em> or <em>\"Not authenticated with Minecraft.net\"</em>.",
+    labelBotName: "Bot Username",
+    labelVersion: "MC Version",
+    labelHost: "Server Host",
+    labelPort: "Server Port",
+    placeholderBotName: "e.g. BotTreoServer",
+    placeholderVersion: "e.g. 1.21.1",
+    placeholderHost: "e.g. play.example.com",
+    placeholderPort: "25565",
+    sec2Title: "Discord Webhook",
+    sec2Sub: "Send status updates to Discord",
+    labelWebhookUrl: "Webhook URL",
+    labelWebhookProxy: "Webhook Proxy URL <span style=\"opacity:0.5\">(optional)</span>",
+    hintWebhookUrl: "Create a webhook in Discord Server Settings → Integrations → Webhooks",
+    hintWebhookProxy: "Use a proxy if running on HuggingFace (direct requests to Discord are blocked)",
+    descWebhook: "When enabled, the bot sends Discord updates on: connect/disconnect, player join/leave, cheat detection, and server status.",
+    sec3Title: "Anti-AFK",
+    sec3Sub: "Prevent getting kicked from server",
+    descAntiAfk: "The bot will automatically move, look around, jump, swing arms, swap hotbar, and open inventory to mimic a real player and bypass anti-AFK systems.",
+    sec4Title: "LoginSecurity Plugin",
+    sec4Sub: "Automatic registration/login",
+    labelBotPassword: "Bot Password",
+    placeholderBotPassword: "Enter bot password...",
+    hintBotPassword: "Password for the bot to auto-register and login on servers with LoginSecurity plugin",
+    descLoginSecurity: "<strong>How it works:</strong> First join → bot auto-sends <code>/register &lt;pass&gt; &lt;pass&gt;</code> to create account. Subsequent joins → bot auto-sends <code>/login &lt;pass&gt;</code>. Detected automatically.",
+    sec5Title: "HuggingFace Spaces",
+    sec5Sub: "Configuration via Environment Variables",
+    descHf: "You can also configure via <strong>HuggingFace Secrets</strong> (Settings → Variables and secrets). Env vars override config saved in the web panel. Supported variables:",
+    btnSaveText: "💾 Save & Restart Bot",
+    btnSaveLoading: "Saving & restarting...",
+    footerText: "🤖 MC Bot Control Panel — 24/7 Minecraft Aternos AFK Hosting",
+    footerSupport: "📧 Support & Bugs: ",
+    toastEmptyName: "Please enter bot username!",
+    toastEmptyHost: "Please enter server host!",
+    toastInvalidPort: "Invalid port (1-65535)!",
+    toastEmptyWebhook: "Enabling Webhook requires Webhook URL!",
+    toastEmptyPassword: "Enabling LoginSecurity requires a password!",
+    toastSaveSuccess: "Configuration saved & bot restarted!",
+    toastSaveError: "Error saving configuration!",
+    toastConnError: "Connection error: "
+  }
+};
+
+let currentLang = localStorage.getItem('lang') || 'vi';
+
+// ============================================================
+//  DOM References
+// ============================================================
+const $ = (sel) => document.querySelector(sel);
+
+const els = {
+  // Server
+  botUsername: $('#botUsername'),
+  mcVersion: $('#mcVersion'),
+  serverHost: $('#serverHost'),
+  serverPort: $('#serverPort'),
+  // Webhook
+  webhookEnabled: $('#webhookEnabled'),
+  webhookContent: $('#webhookContent'),
+  webhookUrl: $('#webhookUrl'),
+  webhookProxy: $('#webhookProxy'),
+  // Anti-AFK
+  antiAfkEnabled: $('#antiAfkEnabled'),
+  antiAfkContent: $('#antiAfkContent'),
+  // LoginSecurity
+  loginSecurityEnabled: $('#loginSecurityEnabled'),
+  loginSecurityContent: $('#loginSecurityContent'),
+  botPassword: $('#botPassword'),
+  passwordToggleBtn: $('#passwordToggleBtn'),
+  // Status
+  statusDot: $('#statusDot'),
+  statusLabel: $('#statusLabel'),
+  statusDetail: $('#statusDetail'),
+  statusBadge: $('#statusBadge'),
+  // Actions
+  btnSave: $('#btnSave'),
+  toast: $('#toast'),
+};
+
+// ============================================================
+//  i18n Language Switcher
+// ============================================================
+function updateLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('lang', lang);
+
+  // Toggle button active state styling
+  if (lang === 'en') {
+    $('#btnLangEn').style.background = 'rgba(99, 102, 241, 0.15)';
+    $('#btnLangEn').style.borderColor = 'rgba(99, 102, 241, 0.4)';
+    $('#btnLangEn').style.color = 'var(--text-primary)';
+    
+    $('#btnLangVi').style.background = 'rgba(255,255,255,0.05)';
+    $('#btnLangVi').style.borderColor = 'var(--border-subtle)';
+    $('#btnLangVi').style.color = 'var(--text-muted)';
+  } else {
+    $('#btnLangVi').style.background = 'rgba(99, 102, 241, 0.15)';
+    $('#btnLangVi').style.borderColor = 'rgba(99, 102, 241, 0.4)';
+    $('#btnLangVi').style.color = 'var(--text-primary)';
+    
+    $('#btnLangEn').style.background = 'rgba(255,255,255,0.05)';
+    $('#btnLangEn').style.borderColor = 'var(--border-subtle)';
+    $('#btnLangEn').style.color = 'var(--text-muted)';
+  }
+
+  // Update text content / innerHTML
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[lang][key]) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (translations[lang][key]) {
+      el.setAttribute('placeholder', translations[lang][key]);
+    }
+  });
+  
+  // Re-poll status immediately to translate labels
+  pollStatus();
+}
+
+$('#btnLangVi').addEventListener('click', () => updateLanguage('vi'));
+$('#btnLangEn').addEventListener('click', () => updateLanguage('en'));
+
+// ============================================================
+//  Toggle Collapsible Sections
+// ============================================================
+function setupToggle(toggleEl, contentEl) {
+  toggleEl.addEventListener('change', () => {
+    if (toggleEl.checked) {
+      contentEl.classList.add('active');
+    } else {
+      contentEl.classList.remove('active');
+    }
+  });
+}
+
+setupToggle(els.webhookEnabled, els.webhookContent);
+setupToggle(els.antiAfkEnabled, els.antiAfkContent);
+setupToggle(els.loginSecurityEnabled, els.loginSecurityContent);
+
+// Guide toggle (click header to collapse/expand)
+const guideToggle = $('#guideToggle');
+const guideContent = $('#guideContent');
+const guideArrow = $('#guideArrow');
+guideToggle.addEventListener('click', () => {
+  const isOpen = guideContent.classList.contains('active');
+  if (isOpen) {
+    guideContent.classList.remove('active');
+    guideArrow.style.transform = 'rotate(-90deg)';
+  } else {
+    guideContent.classList.add('active');
+    guideArrow.style.transform = 'rotate(0deg)';
+  }
+});
+
+// ============================================================
+//  Password Toggle
+// ============================================================
+els.passwordToggleBtn.addEventListener('click', () => {
+  const isPassword = els.botPassword.type === 'password';
+  els.botPassword.type = isPassword ? 'text' : 'password';
+  els.passwordToggleBtn.textContent = isPassword ? '🙈' : '👁️';
+});
+
+// ============================================================
+//  Toast Notification
+// ============================================================
+let toastTimeout = null;
+function showToast(message, type = 'success') {
+  els.toast.textContent = (type === 'success' ? '✅ ' : '❌ ') + message;
+  els.toast.className = 'toast ' + type;
+  // Force reflow
+  void els.toast.offsetWidth;
+  els.toast.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    els.toast.classList.remove('show');
+  }, 4000);
+}
+
+// ============================================================
+//  Load Config from Server
+// ============================================================
+async function loadConfig() {
+  try {
+    const res = await fetch('/api/config');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const cfg = await res.json();
+
+    // Server
+    els.botUsername.value = cfg.username || '';
+    els.mcVersion.value = cfg.version || '';
+    els.serverHost.value = cfg.host || '';
+    els.serverPort.value = cfg.port || '';
+
+    // Webhook
+    els.webhookEnabled.checked = cfg.webhookEnabled !== false;
+    els.webhookUrl.value = cfg.discordWebhook || '';
+    els.webhookProxy.value = cfg.webhookProxy || '';
+    if (els.webhookEnabled.checked) {
+      els.webhookContent.classList.add('active');
+    }
+
+    // Anti-AFK
+    els.antiAfkEnabled.checked = cfg.antiAfkEnabled !== false;
+    if (els.antiAfkEnabled.checked) {
+      els.antiAfkContent.classList.add('active');
+    }
+
+    // LoginSecurity
+    els.loginSecurityEnabled.checked = cfg.loginSecurityEnabled === true;
+    els.botPassword.value = cfg.botPassword || '';
+    if (els.loginSecurityEnabled.checked) {
+      els.loginSecurityContent.classList.add('active');
+    }
+  } catch (err) {
+    console.warn('Failed to load config:', err);
+  }
+}
+
+// ============================================================
+//  Save Config to Server
+// ============================================================
+async function saveConfig() {
+  const cfg = {
+    username: els.botUsername.value.trim(),
+    version: els.mcVersion.value.trim(),
+    host: els.serverHost.value.trim(),
+    port: parseInt(els.serverPort.value, 10) || 25565,
+    webhookEnabled: els.webhookEnabled.checked,
+    discordWebhook: els.webhookUrl.value.trim(),
+    webhookProxy: els.webhookProxy.value.trim(),
+    antiAfkEnabled: els.antiAfkEnabled.checked,
+    loginSecurityEnabled: els.loginSecurityEnabled.checked,
+    botPassword: els.botPassword.value,
+  };
+
+  // Validate using current language
+  if (!cfg.username) { showToast(translations[currentLang].toastEmptyName, 'error'); return; }
+  if (!cfg.host) { showToast(translations[currentLang].toastEmptyHost, 'error'); return; }
+  if (!cfg.port || cfg.port < 1 || cfg.port > 65535) { showToast(translations[currentLang].toastInvalidPort, 'error'); return; }
+  if (cfg.webhookEnabled && !cfg.discordWebhook) { showToast(translations[currentLang].toastEmptyWebhook, 'error'); return; }
+  if (cfg.loginSecurityEnabled && !cfg.botPassword) { showToast(translations[currentLang].toastEmptyPassword, 'error'); return; }
+
+  // UI loading state
+  els.btnSave.classList.add('loading');
+  els.btnSave.disabled = true;
+
+  try {
+    const res = await fetch('/api/config', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cfg),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      showToast(translations[currentLang].toastSaveSuccess, 'success');
+    } else {
+      showToast(data.error || translations[currentLang].toastSaveError, 'error');
+    }
+  } catch (err) {
+    showToast(translations[currentLang].toastConnError + err.message, 'error');
+  } finally {
+    els.btnSave.classList.remove('loading');
+    els.btnSave.disabled = false;
+  }
+}
+
+els.btnSave.addEventListener('click', saveConfig);
+
+// ============================================================
+//  Status Polling
+// ============================================================
+async function pollStatus() {
+  try {
+    const res = await fetch('/api/status');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+
+    const isOnline = data.online === true;
+
+    els.statusDot.className = 'status-dot ' + (isOnline ? 'online' : 'offline');
+    els.statusBadge.className = 'status-badge ' + (isOnline ? 'online' : 'offline');
+    els.statusBadge.textContent = isOnline ? translations[currentLang].statusBadgeOnline : translations[currentLang].statusBadgeOffline;
+    els.statusLabel.textContent = isOnline
+      ? `🟢 ${data.username || 'Bot'} ${translations[currentLang].statusLabelOnline}`
+      : `🔴 ${translations[currentLang].statusLabelOffline}`;
+
+    const details = [];
+    if (data.server) details.push(data.server);
+    if (data.position) details.push((currentLang === 'en' ? 'Position: ' : 'Vị trí: ') + data.position);
+    if (data.uptime) details.push((currentLang === 'en' ? 'Uptime: ' : 'Uptime: ') + data.uptime);
+    els.statusDetail.textContent = details.join('  •  ') || '—';
+  } catch (err) {
+    els.statusDot.className = 'status-dot offline';
+    els.statusBadge.className = 'status-badge offline';
+    els.statusBadge.textContent = translations[currentLang].statusBadgeError;
+    els.statusLabel.textContent = translations[currentLang].statusLabelError;
+    els.statusDetail.textContent = err.message;
+  }
+}
+
+// ============================================================
+//  Init
+// ============================================================
+loadConfig();
+pollStatus();
+setInterval(pollStatus, 5000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "minecraft-afk-bot",
+  "version": "2.0.0",
+  "description": "Bot treo server Minecraft Aternos 24/7 (Java Edition)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "mineflayer": "^4.23.0",
+    "express": "^4.21.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
