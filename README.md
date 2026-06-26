@@ -77,7 +77,6 @@ There are **two ways** to upload files:
    ├── index.js
    ├── package.json
    ├── package-lock.json
-   ├── donate.png
    └── 📁 public/
        ├── index.html
        └── style.css
